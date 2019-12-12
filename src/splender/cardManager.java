@@ -13,15 +13,15 @@ public class cardManager{
 	Vector<card> dec_2 = new Vector<card>();
 	Vector<card> dec_3 = new Vector<card>();
 	//공개된 카드가 저장될 벡터
-	Vector<card> open_1 = new Vector<card>();
-	Vector<card> open_2 = new Vector<card>();
-	Vector<card> open_3 = new Vector<card>();
+	Vector<card> open_1 = new Vector<card>(4);
+	Vector<card> open_2 = new Vector<card>(4);
+	Vector<card> open_3 = new Vector<card>(4);
 	//사용자가 획득한  카드가 저장될 벡터
 	Vector<card> user_1 = new Vector<card>();
-	Vector<card> user_2 = new Vector<card>();
-
+	Vector<card> user_2 = new Vector<card>();	
 	Random r = new Random();
-	String query = "1 1 3 40000\r\n" + 
+	public cardManager() {
+	String query = new String("1 1 3 40000\r\n" + 
 			"1 0 3 11011\r\n" + 
 			"1 0 3 13100\r\n" + 
 			"1 0 3 00021\r\n" +
@@ -110,42 +110,66 @@ public class cardManager{
 			"3 4 3 00007\r\n" + 
 			"3 4 1 36300\r\n" + 
 			"3 3 5 53330\r\n" + 
-			"3 4 2 00700";
+			"3 4 2 00700\r\n");
 	StringTokenizer st = new StringTokenizer(query, "\r\n ");
+
 	/* 카드를 레벨별로 카드가 공개되지 않는 덱에 쌓아둠 */
-	public cardManager() {
-		while(st.hasMoreTokens()) {
-			int token = Integer.parseInt(st.nextToken());
-			if(n%4==0) {
-				level = token;
-			}
-			else if(n%4==1)	score = token;
-			else if (n%4 == 2)	effect = token;
-			else {
-				need = token;
-				if(level == 1) {
-					dec_1.add(new card(score, effect, need));
-				}
-				else if(level == 2) {
-					dec_2.add(new card(score, effect, need));
-				}
-				else if(level == 3) {
-					dec_3.add(new card(score, effect, need));
-				}
-			}
-			n++;
+	int count = st.countTokens();
+	for(int i = 0; i<count; i++) {
+		int token = Integer.parseInt(st.nextToken());
+		if(n%4==0) {
+			level = token;
 		}
+		else if(n%4==1)	score = token;
+		else if (n%4 == 2)	effect = token;
+		else {
+			need = token;
+			//레벨에 맞는 카드 비공개 덱에 저장
+			if(level == 1) {
+				dec_1.add(new card(score, effect, need));
+			}
+			else if(level == 2) {
+				dec_2.add(new card(score, effect, need));
+			}
+			else if(level == 3) {
+				dec_3.add(new card(score, effect, need));
+			}
+		}
+		n++;
 	}
 	/* 카드를 랜덤하게 레벨별로 4개씩 공개 */
-	for(int i; i<4; i++) {
-
-		
+	for(int i = 0; i<4; i++) {
+		move(dec_1, open_1);
+		move(dec_2, open_2);
+		move(dec_3, open_3);
 	}
+	}
+	
 	/* 카드를 공개된 덱으로 옮기는 메소드 */
-	public void move(Vector from, Vector to) {
+	public void move(Vector<card> from, Vector<card> to) {
 		rand = r.nextInt(from.size());
 		c = (card) from.get(rand);//???
 		from.remove(rand);
 		to.add(c);
 	}
+	
+	/* 공개 덱의 카드를 출력하는 메소드 */
+	public void open() {
+		for(int i = 0 ; i< 4 ; i++) {
+			System.out.println("중요도  1 " + "카드 " + (i+1) + "번  - " + open_1.elementAt(i));
+		}
+		System.out.println();
+		for(int i = 0 ; i< 4 ; i++) {
+			System.out.println("중요도  2 " + "카드 " + (i+1) + "번  - " + open_2.elementAt(i));
+		}
+		System.out.println();
+		for(int i = 0 ; i< 4 ; i++) {
+			System.out.println("중요도  3 " + "카드 " + (i+1) + "번  - " + open_3.elementAt(i));
+		}
+		System.out.println();
+	}
+	
+	/*public void initializing(Vector v1, Vector v2, Vector v3, Vector v4, Vector v5, Vector v6) {
+		
+	}*/
 }
