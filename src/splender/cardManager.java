@@ -166,6 +166,15 @@ public class cardManager{
 		from.add(c);
 	}
 	
+	/*카드를 공개된 덱으로 반납하는 메소드*/
+	public void moveuser2open(Vector<card> from, Vector<card> to, int i, int num) {
+		c = from.get(i);
+		from.remove(i);
+		to.remove(num-1);
+		to.add(num-1, c);
+		
+	}
+	
 	/* 공개 덱의 카드를 출력하는 메소드 */
 	public void open() {
 		for(int i = 0 ; i< 4 ; i++) {

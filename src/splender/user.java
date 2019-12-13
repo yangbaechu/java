@@ -129,6 +129,30 @@ public class user {
 				System.out.println();
 			}
 			else {
+				/* 사용자가 가져왔던 카드를 반납 */
+				if(user_n == 1) {
+					if(rank == 1) {
+						cm.moveuser2open(cardManager.user_1, cardManager.open_1, total_card, number);
+					}
+					else if(rank == 2) {
+						cm.moveuser2open(cardManager.user_1, cardManager.open_2, total_card, number);
+					}
+					else if(rank == 3) {
+						cm.moveuser2open(cardManager.user_1, cardManager.open_3, total_card, number);
+					}
+				}
+					
+				else if(user_n == 2) {
+					if(rank == 1) {
+						cm.moveuser2open(cardManager.user_1, cardManager.open_1, total_card, number);
+					}
+					else if(rank == 2) {
+						cm.moveuser2open(cardManager.user_1, cardManager.open_2, total_card, number);
+					}
+					else if(rank == 3) {
+						cm.moveuser2open(cardManager.user_1, cardManager.open_3, total_card, number);
+					}
+				}
 				System.out.println("자원이 부족합니다.다시 선택하세요");
 			}
 		}
