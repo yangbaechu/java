@@ -124,7 +124,7 @@ public class cardManager{
 		else if (n%4 == 2)	effect = token;
 		else {
 			need = token;
-			//레벨에 맞는 카드 비공개 덱에 저장
+			/*레벨에 맞는 카드 비공개 덱에 저장*/
 			if(level == 1) {
 				dec_1.add(new card(score, effect, need));
 			}
@@ -137,7 +137,7 @@ public class cardManager{
 		}
 		n++;
 	}
-	/* 카드를 랜덤하게 레벨별로 4개씩 공개 */
+	/* 카드를 랜덤하게 레벨별로 4개씩 공개된 덱으로 이동 */
 	for(int i = 0; i<4; i++) {
 		move2open(dec_1, open_1);
 		move2open(dec_2, open_2);
@@ -145,7 +145,7 @@ public class cardManager{
 	}
 	}
 	
-	/* 카드를 공개된 벡터로 옮기는 메소드 */
+	/* 카드를 공개된 덱으로 옮기는 메소드 */
 	public void move2open(Vector<card> from, Vector<card> to) {
 		rand = r.nextInt(from.size());
 		c = (card) from.get(rand);//???
@@ -154,10 +154,12 @@ public class cardManager{
 	}
 	
 	/*카드를 사용자에게 옮기는 메소드*/
-	public void move2user(Vector<card> source, Vector<card> from, Vector<card> to, int i) {
-		from.remove(i);
+	public void move2user(Vector<card> source, Vector<card> from, Vector<card> to, int i)
+	{//공개된 덱 -> 사용자
+		c = from.get(i-1);
+		from.remove(i-1);
 		to.add(c);
-		
+		//숨겨진 덱 -> 공개된 덱
 		rand = r.nextInt(source.size());
 		c = (card) source.get(rand);
 		source.remove(rand);
