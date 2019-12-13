@@ -9,19 +9,19 @@ public class cardManager{
 	card c;
 	/* 카드의 정보들을 저장할 벡터 */
 	//숨겨진 카드가 저장될 벡터
-	Vector<card> dec_1 = new Vector<card>();
-	Vector<card> dec_2 = new Vector<card>();
-	Vector<card> dec_3 = new Vector<card>();
+	static Vector<card> dec_1 = new Vector<card>();
+	static Vector<card> dec_2 = new Vector<card>();
+	static Vector<card> dec_3 = new Vector<card>();
 	//공개된 카드가 저장될 벡터
-	Vector<card> open_1 = new Vector<card>(4);
-	Vector<card> open_2 = new Vector<card>(4);
-	Vector<card> open_3 = new Vector<card>(4);
+	static Vector<card> open_1 = new Vector<card>(4);
+	static Vector<card> open_2 = new Vector<card>(4);
+	static Vector<card> open_3 = new Vector<card>(4);
 	//사용자가 획득한  카드가 저장될 벡터
-	Vector<card> user_1 = new Vector<card>();
-	Vector<card> user_2 = new Vector<card>();	
+	static Vector<card> user_1 = new Vector<card>();
+	static Vector<card> user_2 = new Vector<card>();	
 	Random r = new Random();
 	public cardManager() {
-	String query = new String("1 1 3 40000\r\n" + 
+		String query = new String("1 1 3 40000\r\n" + 
 			"1 0 3 11011\r\n" + 
 			"1 0 3 13100\r\n" + 
 			"1 0 3 00021\r\n" +
@@ -111,7 +111,7 @@ public class cardManager{
 			"3 4 1 36300\r\n" + 
 			"3 3 5 53330\r\n" + 
 			"3 4 2 00700\r\n");
-	StringTokenizer st = new StringTokenizer(query, "\r\n ");
+		StringTokenizer st = new StringTokenizer(query, "\r\n ");
 
 	/* 카드를 레벨별로 카드가 공개되지 않는 덱에 쌓아둠 */
 	int count = st.countTokens();
@@ -139,18 +139,29 @@ public class cardManager{
 	}
 	/* 카드를 랜덤하게 레벨별로 4개씩 공개 */
 	for(int i = 0; i<4; i++) {
-		move(dec_1, open_1);
-		move(dec_2, open_2);
-		move(dec_3, open_3);
+		move2open(dec_1, open_1);
+		move2open(dec_2, open_2);
+		move2open(dec_3, open_3);
 	}
 	}
 	
-	/* 카드를 공개된 덱으로 옮기는 메소드 */
-	public void move(Vector<card> from, Vector<card> to) {
+	/* 카드를 공개된 벡터로 옮기는 메소드 */
+	public void move2open(Vector<card> from, Vector<card> to) {
 		rand = r.nextInt(from.size());
 		c = (card) from.get(rand);//???
 		from.remove(rand);
 		to.add(c);
+	}
+	
+	/*카드를 사용자에게 옮기는 메소드*/
+	public void move2user(Vector<card> source, Vector<card> from, Vector<card> to, int i) {
+		from.remove(i);
+		to.add(c);
+		
+		rand = r.nextInt(source.size());
+		c = (card) source.get(rand);
+		source.remove(rand);
+		from.add(c);
 	}
 	
 	/* 공개 덱의 카드를 출력하는 메소드 */
@@ -168,8 +179,4 @@ public class cardManager{
 		}
 		System.out.println();
 	}
-	
-	/*public void initializing(Vector v1, Vector v2, Vector v3, Vector v4, Vector v5, Vector v6) {
-		
-	}*/
 }

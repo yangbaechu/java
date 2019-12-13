@@ -1,6 +1,4 @@
 package splender;
-import java.util.StringTokenizer;
-import java.util.Vector;
 
 /*카드의 정보를 저장하는 클래스*/
 public class card {
@@ -27,7 +25,7 @@ public class card {
 	
 	/* 카드 정보 출력 해주는 메소드 */ 
 	public String toString() {
-		return "점수: " +  score + "  " + "효과: " + Effect + "  " + "빨강: " + red + ", "+
+		return "점수: " +  score + "  " + "효과: " + Effect + "   " + "빨강: " + red + ", "+
 				"초록: " + green + ", "+"파랑: " + blue + ", "+"검정: " + black + ", "+"하양: " + white;
 	}
 }
