@@ -1,10 +1,12 @@
 package splender;
 
 import java.util.Arrays;
-
+/*
+ * 현재 오류: 자원이 충분하지만 카드를 구매할 수 없는 오류
+ */
 public class GameManager {
 	static boolean miss[] = {false,false,false,false,false};//사용자가 구매에 사용할 자원이 충분한지 확인한 결과를 저장
-
+	static boolean retry = false;
 	public static void main(String arvg[]) {
 		user user1 = new user(1);
 		user user2 = new user(2);
@@ -15,17 +17,15 @@ public class GameManager {
 		System.out.println("스플렌더는 각각의 자원을 이용해서 카드를 구매해 점수를 얻어 승리하는 게임입니다.");
 		System.out.println("카드는 해당 카드 제공하는 효과를 통해 다른 카드의 구매비용을 줄여줍니다.");
 		System.out.println();
+		
 		while(r1&&r2) {
 			System.out.println("사용자 1의 턴입니다.");
 			/* 사용자 1의 턴 진행 */
 			do {
 				retry = false;
-				for(i=0; i<5; i++) {
-					miss[i] = false;
-				}
 				r1 = user1.turn();
 				for(i=0; i<5; i++) {
-					if (miss[i] == true) {
+					if (miss[i] == true) {//필요한 자원중 한 종류라도 사용자가 없다면 턴을 다시 진행
 						retry = true;
 					}
 				}
@@ -36,9 +36,6 @@ public class GameManager {
 			System.out.println("사용자 2의 턴입니다.");
 			do {
 				retry = false;
-				for(i=0; i<5; i++) {
-					miss[i] = false;
-				}
 				r2 = user2.turn();
 				for(i=0; i<5; i++) {
 					if (miss[i] == true) {
@@ -59,6 +56,7 @@ public class GameManager {
 			}
 		}
 	}
-}	
+}
+
 
 

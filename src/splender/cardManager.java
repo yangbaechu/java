@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class cardManager{
 	int level, score, effect, need, n=0, rand;
-	card c;
+	card c, c1;
 	/* 카드의 정보들을 저장할 벡터 */
 	//숨겨진 카드가 저장될 벡터
 	static Vector<card> dec_1 = new Vector<card>();
@@ -154,24 +154,26 @@ public class cardManager{
 	}
 	
 	/*카드를 사용자에게 옮기는 메소드*/
-	public void move2user(Vector<card> source, Vector<card> from, Vector<card> to, int i)
+	public void move2user(Vector<card> source, Vector<card> open, Vector<card> user, int i)
 	{//공개된 덱 -> 사용자
-		c = from.get(i-1);
-		from.remove(i-1);
-		to.add(c);
+		c = open.get(i-1);
+		open.remove(i-1);
+		user.add(c);
 		//숨겨진 덱 -> 공개된 덱
 		rand = r.nextInt(source.size());
 		c = (card) source.get(rand);
 		source.remove(rand);
-		from.add(c);
+		open.add(i-1, c);
 	}
 	
 	/*카드를 공개된 덱으로 반납하는 메소드*/
-	public void moveuser2open(Vector<card> from, Vector<card> to, int i, int num) {
-		c = from.get(i);
-		from.remove(i);
-		to.remove(num-1);
-		to.add(num-1, c);
+	public void moveuser2open(Vector<card> source, Vector<card> user, Vector<card> open, int i, int num) {
+		c = user.get(i);//사용자가 잘못 가져온 카드 정보를 c에 저장
+		user.remove(i);
+		c1 = open.get(num-1);//잘못 공개된 덱에 가져온 카드 정보를 c1에 저장
+		open.remove(num-1);
+		open.add(num-1, c);
+		source.add(c1);
 		
 	}
 	

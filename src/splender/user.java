@@ -6,7 +6,7 @@ public class user {
 	int red_card =0, green_card = 0, blue_card = 0, black_card = 0, white_card = 0, total_card = 0;
 	int input1, input2, i, rank=0, number=0, user_n= 0, score = 0;
 	card getcard;
-	boolean retry;
+	boolean retry = false;
 	cardManager cm = new cardManager();
 	Scanner scanner = new Scanner(System.in);
 	public user(int n) { user_n = n; }
@@ -96,7 +96,12 @@ public class user {
 				getcard = cardManager.user_2.get(total_card);
 			}
 			
-			pay();//카드 비용 지불
+			/*카드 비용 지불*/
+			red = pay(getcard.red, this.red, this.red_card, 0);
+			green = pay(getcard.green, this.green, this.green_card, 1);
+			blue = pay(getcard.blue, this.blue, this.blue_card, 2);
+			black = pay(getcard.black, this.black, this.black_card, 3);
+			white = pay(getcard.white, this.white, this.white_card, 4);
 			
 			for(i=0; i<5; i++) {
 				if (GameManager.miss[i] == true) {
@@ -132,28 +137,28 @@ public class user {
 				/* 사용자가 가져왔던 카드를 반납 */
 				if(user_n == 1) {
 					if(rank == 1) {
-						cm.moveuser2open(cardManager.user_1, cardManager.open_1, total_card, number);
+						cm.moveuser2open(cardManager.dec_1, cardManager.user_1, cardManager.open_1, total_card, number);
 					}
 					else if(rank == 2) {
-						cm.moveuser2open(cardManager.user_1, cardManager.open_2, total_card, number);
+						cm.moveuser2open(cardManager.dec_2, cardManager.user_1, cardManager.open_2, total_card, number);
 					}
 					else if(rank == 3) {
-						cm.moveuser2open(cardManager.user_1, cardManager.open_3, total_card, number);
+						cm.moveuser2open(cardManager.dec_3, cardManager.user_1, cardManager.open_3, total_card, number);
 					}
 				}
 					
 				else if(user_n == 2) {
 					if(rank == 1) {
-						cm.moveuser2open(cardManager.user_1, cardManager.open_1, total_card, number);
+						cm.moveuser2open(cardManager.dec_1, cardManager.user_2, cardManager.open_1, total_card, number);
 					}
 					else if(rank == 2) {
-						cm.moveuser2open(cardManager.user_1, cardManager.open_2, total_card, number);
+						cm.moveuser2open(cardManager.dec_2, cardManager.user_2, cardManager.open_2, total_card, number);
 					}
 					else if(rank == 3) {
-						cm.moveuser2open(cardManager.user_1, cardManager.open_3, total_card, number);
+						cm.moveuser2open(cardManager.dec_3, cardManager.user_2, cardManager.open_3, total_card, number);
 					}
 				}
-				System.out.println("자원이 부족합니다.다시 선택하세요");
+				//System.out.println("자원이 부족합니다.다시 선택하세요");
 			}
 		}
 		
@@ -165,96 +170,27 @@ public class user {
 	}
 	
 	/*얻은 카드의 가격을 지불하는 메소드 */
-	public void pay() {
-		int red_pay, green_pay, blue_pay, black_pay, white_pay; // 카드의 가격 
-		int red_card_pay = red_card, green_card_pay = green_card, blue_card_pay = blue_card,
-				black_card_pay = black_card, white_card_pay = white_card;//지불에 사용할 카드 개수
-		red_pay = getcard.red;		green_pay = getcard.green;		blue_pay = getcard.blue;
-		black_pay = getcard.black;	white_pay = getcard.white;
-		
-		/* 빨강 자원 비용 지불 */
-		while(red_pay>0) {
-			if(red_card_pay>0) {
-				red_card_pay--;
-				red_pay--;
+	public int pay(int price, int color, int color_c, int i) {
+		if(price>0) {//지불할 가격이 남아 있을 동안 반복
+			while(color_c > 0 && price > 0) {//해당 자원의 카드가 있을 경우
+				color_c--;
+				price--;
 			}
-			else if(red>0) {
-				red--;
-				red_pay--;
+			while(color > 0  && price > 0) {//해당 자원의 카드가 부족하고 자원이 있을 경우
+				color--;
+				price--;
 			}
-			if (red_pay == 0) { break; }
+			if (price != 0) {// 해당 자원과 카드가 모두 없는 경우
+				GameManager.miss[i] = true;
+				System.out.print(i + "번 자원이 " + price + "만큼 부족합니다. ");
+			}
 			else {
-				GameManager.miss[0] = true;
-				break;
+				GameManager.miss[i] = false;
 			}
 		}
-		
-		/* 초록 자원 비용 지불 */
-		while(green_pay>0) {
-			if(green_card_pay>0) {
-				green_card_pay--;
-				green_pay--;
-			}
-			else if(green>0) {
-				green--;
-				green_pay--;
-			}
-			if (green_pay == 0) { break; }
-			else {
-				GameManager.miss[1] = true;
-				break;
-			}
+		else {//해당 자원이 필요 없는 경우
+			GameManager.miss[i] = false;
 		}
-		
-		/* 파랑 자원 비용 지불 */
-		while(blue_pay>0) {
-			if(blue_card_pay>0) {
-				blue_card_pay--;
-				blue_pay--;
-			}
-			else if(blue>0) {
-				blue--;
-				blue_pay--;
-			}
-			if (blue_pay == 0) { break; }
-			else {
-				GameManager.miss[2] = true;
-				break;
-			}
-		}
-		
-		/* 검정 자원 비용 지불 */
-		while(black_pay>0) {
-			if(black_card_pay>0) {
-				black_card_pay--;
-				black_pay--;
-			}
-			else if(black>0) {
-				black--;
-				black_pay--;
-			}
-			if (black_pay == 0) { break; }
-			else {
-				GameManager.miss[3] = true;
-				break;
-			}
-		}
-		
-		/*하양 자원 비용 지불 */
-		while(white_pay>0) {
-			if(white_card_pay>0) {
-				white_card_pay--;
-				white_pay--;
-			}
-			else if(white>0) {
-				white--;
-				white_pay--;
-			}
-			if (white_pay == 0) { break; }
-			else {
-				GameManager.miss[4] = true;
-				break;
-			}
-		}
+		return color;
 	}
 }
