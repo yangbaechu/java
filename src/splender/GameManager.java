@@ -1,9 +1,7 @@
 package splender;
 
 import java.util.Arrays;
-/*
- * 현재 오류: 자원이 충분하지만 카드를 구매할 수 없는 오류
- */
+
 public class GameManager {
 	static boolean miss[] = {false,false,false,false,false};//사용자가 구매에 사용할 자원이 충분한지 확인한 결과를 저장
 	static boolean retry = false;
