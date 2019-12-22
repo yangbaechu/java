@@ -60,26 +60,26 @@ public class User {
 			/* 사용자가 선택한 카드를 사용자의 덱으로 이동 시킴 */
 			if(user_n == 1) {
 				if(rank == 1) {
-					cm.move2user(cardManager.dec_1, cardManager.open_1, cardManager.user_1, number);
+					cm.move2user(cardManager.hide_1, cardManager.open_1, cardManager.user_1, number);
 				}
 				else if(rank == 2) {
-					cm.move2user(cardManager.dec_2, cardManager.open_2, cardManager.user_1, number);
+					cm.move2user(cardManager.hide_2, cardManager.open_2, cardManager.user_1, number);
 				}
 				else if(rank == 3) {
-					cm.move2user(cardManager.dec_3, cardManager.open_3, cardManager.user_1, number);
+					cm.move2user(cardManager.hide_3, cardManager.open_3, cardManager.user_1, number);
 				}
 				getcard = cardManager.user_1.get(total_card);
 			}
 				
 			else if(user_n == 2) {
 				if(rank == 1) {
-					cm.move2user(cardManager.dec_1, cardManager.open_1, cardManager.user_2, number);
+					cm.move2user(cardManager.hide_1, cardManager.open_1, cardManager.user_2, number);
 				}
 				else if(rank == 2) {
-					cm.move2user(cardManager.dec_2, cardManager.open_2, cardManager.user_2, number);
+					cm.move2user(cardManager.hide_2, cardManager.open_2, cardManager.user_2, number);
 				}
 				else if(rank == 3) {
-					cm.move2user(cardManager.dec_3, cardManager.open_3, cardManager.user_2, number);
+					cm.move2user(cardManager.hide_3, cardManager.open_3, cardManager.user_2, number);
 				}
 				getcard = cardManager.user_2.get(total_card);
 			}
@@ -125,25 +125,25 @@ public class User {
 				/* 사용자가 가져왔던 카드를 반납 */
 				if(user_n == 1) {
 					if(rank == 1) {
-						cm.moveuser2open(cardManager.dec_1, cardManager.user_1, cardManager.open_1, total_card, number);
+						cm.moveuser2open(cardManager.hide_1, cardManager.user_1, cardManager.open_1, total_card, number);
 					}
 					else if(rank == 2) {
-						cm.moveuser2open(cardManager.dec_2, cardManager.user_1, cardManager.open_2, total_card, number);
+						cm.moveuser2open(cardManager.hide_2, cardManager.user_1, cardManager.open_2, total_card, number);
 					}
 					else if(rank == 3) {
-						cm.moveuser2open(cardManager.dec_3, cardManager.user_1, cardManager.open_3, total_card, number);
+						cm.moveuser2open(cardManager.hide_3, cardManager.user_1, cardManager.open_3, total_card, number);
 					}
 				}
 					
 				else if(user_n == 2) {
 					if(rank == 1) {
-						cm.moveuser2open(cardManager.dec_1, cardManager.user_2, cardManager.open_1, total_card, number);
+						cm.moveuser2open(cardManager.hide_1, cardManager.user_2, cardManager.open_1, total_card, number);
 					}
 					else if(rank == 2) {
-						cm.moveuser2open(cardManager.dec_2, cardManager.user_2, cardManager.open_2, total_card, number);
+						cm.moveuser2open(cardManager.hide_2, cardManager.user_2, cardManager.open_2, total_card, number);
 					}
 					else if(rank == 3) {
-						cm.moveuser2open(cardManager.dec_3, cardManager.user_2, cardManager.open_3, total_card, number);
+						cm.moveuser2open(cardManager.hide_3, cardManager.user_2, cardManager.open_3, total_card, number);
 					}
 				}
 				//System.out.println("자원이 부족합니다.다시 선택하세요");
@@ -172,12 +172,6 @@ public class User {
 				GameManager.miss[i] = true;
 				System.out.print(i + "번 자원이 " + price + "만큼 부족합니다. ");
 			}
-			else {
-				GameManager.miss[i] = false;
-			}
-		}
-		else {//해당 자원이 필요 없는 경우
-			GameManager.miss[i] = false;
 		}
 		return color;
 	}

@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class GameManager {
 	static boolean miss[] = {false,false,false,false,false};//사용자가 구매에 사용할 자원이 충분한지 확인한 결과를 저장
 	static boolean retry = false;
+	
 	public static void main(String arvg[]) {
 		User user1 = new User(1);
 		User user2 = new User(2);
@@ -18,30 +19,11 @@ public class GameManager {
 		System.out.println();
 		
 		while(r1&&r2) {
-			System.out.println("사용자 1의 턴입니다.");
-			/* 사용자 1의 턴 진행 */
-			do {
-				retry = false;
-				r1 = user1.turn();
-				for(i=0; i<5; i++) {
-					if (miss[i] == true) {//필요한 자원중 한 종류라도 사용자가 없다면 턴을 다시 진행
-						retry = true;
-					}
-				}
-			}while(retry);
+
+			r1 = check_retry(user1, 1);
 			if(r1 == false) { System.out.println("사용자 2의 턴까지 마치고 게임을 종료합니다."); }
 			
-			/*사용자 2의 턴 진행*/
-			System.out.println("사용자 2의 턴입니다.");
-			do {
-				retry = false;
-				r2 = user2.turn();
-				for(i=0; i<5; i++) {
-					if (miss[i] == true) {
-						retry = true;
-					}
-				}
-			}while(retry);
+			r2 = check_retry(user2, 2);
 			if(r2 == false) { System.out.println("게임을 종료합니다."); }
 			
 			/* 승리 조건 달성시 */
@@ -54,5 +36,24 @@ public class GameManager {
 				break;
 			}
 		}
+	}
+	
+	/* 사용자의 턴을 진행하고 턴이 정상적으로 완료 될때까지 턴을 진행하는 메소드 */
+	public static boolean check_retry(User user, int num) {
+		boolean r1;
+		System.out.println("사용자 " + num + "의 턴입니다.");
+		do {
+			retry = false;
+			for(int i=0;i<5;i++) {//매 턴이 진행되기 전에  변수 초기화
+				miss[i] = false;
+			}
+			r1 = user.turn();
+			for(int i=0; i<5; i++) {
+				if (miss[i] == true) {//필요한 자원중 한 종류라도 사용자가 없다면 턴을 다시 진행
+					retry = true;
+				}
+			}
+		}while(retry);
+		return r1;
 	}
 }

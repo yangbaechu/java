@@ -25,7 +25,27 @@ public class card {
 	
 	/* 카드 정보 출력 해주는 메소드 */ 
 	public String toString() {
-		return "점수: " +  score + "  " + "효과: " + Effect + "   " + "빨강: " + red + ", "+
+		return "점수: " +  score + "  " + "효과: " + Effect + "   " + "빨강: " + red + ", " +
+				"초록: " + green + ", "+"파랑: " + blue + ", "+"검정: " + black + ", "+"하양: " + white;
+	}
+}
+/* 귀족 카드의 정보를 저장하는 클래스*/
+class noble_card{
+	int red, green, blue, black, white;
+	String name;
+	
+	/*귀족 카드 정보 입력받는 생성자*/
+	public noble_card(String name, int number) {
+		this.name = name;
+		red = number/10000;		number -= red*10000;
+		green = number/1000;	number -= green*1000;
+		blue = number/100;		number -= blue*100;
+		black = number/10;		number -= black*10;
+		white = number;
+	}
+
+	public String toString() {
+		return name + "빨강: " + red + ", "+
 				"초록: " + green + ", "+"파랑: " + blue + ", "+"검정: " + black + ", "+"하양: " + white;
 	}
 }

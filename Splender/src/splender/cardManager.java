@@ -9,19 +9,23 @@ public class cardManager{
 	card c, c1;
 	/* 카드의 정보들을 저장할 벡터 */
 	//숨겨진 카드가 저장될 벡터
-	static Vector<card> dec_1 = new Vector<card>();
-	static Vector<card> dec_2 = new Vector<card>();
-	static Vector<card> dec_3 = new Vector<card>();
+	static Vector<card> hide_1 = new Vector<card>();
+	static Vector<card> hide_2 = new Vector<card>();
+	static Vector<card> hide_3 = new Vector<card>();
 	//공개된 카드가 저장될 벡터
 	static Vector<card> open_1 = new Vector<card>(4);
 	static Vector<card> open_2 = new Vector<card>(4);
 	static Vector<card> open_3 = new Vector<card>(4);
 	//사용자가 획득한  카드가 저장될 벡터
 	static Vector<card> user_1 = new Vector<card>();
-	static Vector<card> user_2 = new Vector<card>();	
+	static Vector<card> user_2 = new Vector<card>();
+	//귀족 카드가 저장될 벡터
+	static Vector<card>noble_hide = new Vector<card>();
+	static Vector<card>noble_open = new Vector<card>();
+	
 	Random r = new Random();
 	public cardManager() {
-		String query = new String("1 1 3 40000\r\n" + 
+		String card_query = new String("1 1 3 40000\r\n" + 
 			"1 0 3 11011\r\n" + 
 			"1 0 3 13100\r\n" + 
 			"1 0 3 00021\r\n" +
@@ -111,12 +115,23 @@ public class cardManager{
 			"3 4 1 36300\r\n" + 
 			"3 3 5 53330\r\n" + 
 			"3 4 2 00700\r\n");
-		StringTokenizer st = new StringTokenizer(query, "\r\n ");
+		String noble_query = new String("칼_5세  30033\r\n" + 
+				"프랑수아_1세  33030\r\n" + 
+				"쉴레이만_1세  04400\r\n" + 
+				"이사벨_1세  00044\r\n" + 
+				"앤_불린 03303\r\n" + 
+				"엘리자베스_1세  00333\r\n" + 
+				"마키아벨리  00404\r\n" + 
+				"헨리_8세 40040\r\n" + 
+				"메리_여왕  44000\r\n" + 
+				"카트린_드_메디시스  33300");
+		StringTokenizer card_st = new StringTokenizer(card_query, "\r\n ");
+		StringTokenizer noble_st = new StringTokenizer(noble_query, "\r\n ");
 
 	/* 카드를 레벨별로 카드가 공개되지 않는 덱에 쌓아둠 */
-	int count = st.countTokens();
+	int count = card_st.countTokens();
 	for(int i = 0; i<count; i++) {
-		int token = Integer.parseInt(st.nextToken());
+		int token = Integer.parseInt(card_st.nextToken());
 		if(n%4==0) {
 			level = token;
 		}
@@ -126,22 +141,22 @@ public class cardManager{
 			need = token;
 			/*레벨에 맞는 카드 비공개 덱에 저장*/
 			if(level == 1) {
-				dec_1.add(new card(score, effect, need));
+				hide_1.add(new card(score, effect, need));
 			}
 			else if(level == 2) {
-				dec_2.add(new card(score, effect, need));
+				hide_2.add(new card(score, effect, need));
 			}
 			else if(level == 3) {
-				dec_3.add(new card(score, effect, need));
+				hide_3.add(new card(score, effect, need));
 			}
 		}
 		n++;
 	}
 	/* 카드를 랜덤하게 레벨별로 4개씩 공개된 덱으로 이동 */
 	for(int i = 0; i<4; i++) {
-		move2open(dec_1, open_1);
-		move2open(dec_2, open_2);
-		move2open(dec_3, open_3);
+		move2open(hide_1, open_1);
+		move2open(hide_2, open_2);
+		move2open(hide_3, open_3);
 	}
 	}
 	
@@ -174,7 +189,6 @@ public class cardManager{
 		open.remove(num-1);
 		open.add(num-1, c);
 		source.add(c1);
-		
 	}
 	
 	/* 공개 덱의 카드를 출력하는 메소드 */
