@@ -24,6 +24,7 @@ public class cardManager{
 	static Vector<card>noble_open = new Vector<card>();
 	
 	Random r = new Random();
+	
 	public cardManager() {
 		String card_query = new String("1 1 3 40000\r\n" + 
 			"1 0 3 11011\r\n" + 
