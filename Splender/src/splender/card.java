@@ -1,5 +1,7 @@
 package splender;
 
+import java.util.StringTokenizer;
+
 /*카드의 정보를 저장하는 클래스*/
 public class card {
 	int red, green, blue, black, white; //사는데 필요한 광물
@@ -36,7 +38,13 @@ class noble_card{
 	
 	/*귀족 카드 정보 입력받는 생성자*/
 	public noble_card(String name, int number) {
-		this.name = name;
+		StringTokenizer st = new StringTokenizer(name,"_");
+		int count = st.countTokens();
+		this.name="";
+		for(int i=0; i<count; i++) {
+			this.name += st.nextToken();
+			this.name += " ";
+		}
 		red = number/10000;		number -= red*10000;
 		green = number/1000;	number -= green*1000;
 		blue = number/100;		number -= blue*100;
@@ -45,7 +53,7 @@ class noble_card{
 	}
 
 	public String toString() {
-		return name + "빨강: " + red + ", "+
+		return name + " 빨강: " + red + ", "+
 				"초록: " + green + ", "+"파랑: " + blue + ", "+"검정: " + black + ", "+"하양: " + white;
 	}
 }
