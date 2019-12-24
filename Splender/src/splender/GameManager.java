@@ -10,8 +10,7 @@ public class GameManager {
 		User user1 = new User(1);
 		User user2 = new User(2);
 		Arrays.fill(miss, true);
-		int i;
-		boolean r1=true, r2=true, retry = false;
+		boolean r1=true, r2=true;
 		System.out.println("스플렌더에 오신 것을 환영합니다!");
 		System.out.println("스플렌더는 각각의 자원을 이용해서 카드를 구매해 점수를 얻어 승리하는 게임입니다.");
 		System.out.println("카드는 해당 카드 제공하는 효과를 통해 다른 카드의 구매비용을 줄여줍니다.");

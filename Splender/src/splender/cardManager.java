@@ -24,6 +24,8 @@ public class cardManager{
 	//귀족 카드가 저장될 벡터
 	static Vector<noble_card>noble_hide = new Vector<noble_card>();
 	static Vector<noble_card>noble_open = new Vector<noble_card>();
+	static Vector<noble_card>noble_user_1 = new Vector<noble_card>();
+	static Vector<noble_card>noble_user_2 = new Vector<noble_card>();
 	
 	Random r = new Random();
 	
@@ -207,6 +209,20 @@ public class cardManager{
 		source.remove(rand);
 		open.add(i-1, c);
 	}
+	
+	/*귀족 카드를 사용자에게 옮기는 메소드*/
+	public void move2user_noble(Vector<noble_card> source, Vector<noble_card> open, Vector<noble_card> user, int i)
+	{//공개된 덱 -> 사용자
+		nc = open.get(i-1);
+		open.remove(i-1);
+		user.add(nc);
+		//숨겨진 덱 -> 공개된 덱
+		rand = r.nextInt(source.size());
+		nc = (noble_card) source.get(rand);
+		source.remove(rand);
+		open.add(i-1, nc);
+	}
+	
 	
 	/*카드를 공개된 덱으로 반납하는 메소드*/
 	public void moveuser2open(Vector<card> source, Vector<card> user, Vector<card> open, int i, int num) {

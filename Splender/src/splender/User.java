@@ -1,5 +1,6 @@
 package splender;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class User {
 	int red =0, green = 0, blue = 0, black = 0, white = 0;
@@ -7,6 +8,7 @@ public class User {
 	int option, rank=0, number=0, user_n= 0, score = 0;
 	int color_input, color_input_1, color_input_2, color_input_3; // 사용자가 선택한 자원
 	card getcard;
+	noble_card getnoble_card;
 	boolean retry = false;
 	cardManager cm = new cardManager();
 	Scanner scanner = new Scanner(System.in);
@@ -118,6 +120,9 @@ public class User {
 				
 				total_card += 1;
 				System.out.println(getcard.Effect+ " 효과의 카드를 구매하셨습니다.");
+				for(int i=0; i<3; i++) {
+					check_noble(i);
+				}
 				System.out.println("턴이 종료되었습니다.");
 				System.out.println();
 			}
@@ -146,7 +151,7 @@ public class User {
 						cm.moveuser2open(cardManager.hide_3, cardManager.user_2, cardManager.open_3, total_card, number);
 					}
 				}
-				//System.out.println("자원이 부족합니다.다시 선택하세요");
+				System.out.println();
 			}
 		}
 		
@@ -170,7 +175,7 @@ public class User {
 			}
 			if (price != 0) {// 해당 자원과 카드가 모두 없는 경우
 				GameManager.miss[i] = true;
-				System.out.print(i + "번 자원이 " + price + "만큼 부족합니다. ");
+				System.out.print((i+1) + "번 자원이 " + price + "만큼 부족합니다. ");
 			}
 		}
 		return color;
@@ -221,5 +226,24 @@ public class User {
 				+ ", "+"검정: " + black + ", "+"하양: " + white + " 입니다.");
 		System.out.println("현재 카드의 개수는 빨강: " + red_card + ", "+ "초록: " + green_card + ", "+"파랑: " 
 				+ blue_card + ", "+"검정: " + black_card + ", "+"하양: " + white_card + " 입니다.");
+	}
+	
+	/* 귀족카드를 얻을 수 있는지 확인하는 메소드 */
+	public void check_noble(int i) {
+		getnoble_card = cardManager.noble_open.get(i);
+		if(getnoble_card.red <= this.red_card && getnoble_card.green <= this.green_card  
+			&& getnoble_card.blue <= this.blue_card && getnoble_card.black <= this.black_card
+			&& getnoble_card.white <= this.white_card) {
+			this.score += 3;
+			if (user_n == 1) {
+				cm.move2user_noble(cardManager.noble_hide, cardManager.noble_open, cardManager.noble_user_1, i);
+			}
+			else {
+				cm.move2user_noble(cardManager.noble_hide, cardManager.noble_open, cardManager.noble_user_2, i);
+			}
+			System.out.println(getnoble_card.name + "카드를 획득했습니다.");
+			System.out.println("현재 점수는 "+ score + "점 입니다.");
+		}
+		else {}
 	}
 }
