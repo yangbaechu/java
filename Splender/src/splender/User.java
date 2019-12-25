@@ -32,7 +32,6 @@ public class User {
 			color_input_2 = get_color();
 			if(color_input_1 == color_input_2) {//같은 종류의 자원 2개 얻을 경우
 				System.out.println("턴이 종료되었습니다.");
-				show();
 			}
 			else {//각각 다른 자원을 3개 얻을 경우
 				color_input_3 = get_color();
@@ -45,8 +44,8 @@ public class User {
 					}while(color_input_1 == color_input_3 || color_input_2 == color_input_3);
 				}
 				System.out.println("턴이 종료되었습니다.");
-				
 			}
+			show();
 			System.out.println();
 			return true;
 		}
@@ -59,32 +58,16 @@ public class User {
 			System.out.println("선택할 카드의 번호를 입력하시오");
 			number = scanner.nextInt();
 			
+			/*사용자가 선택한 카드를 가져올 수 있는 자원이 있는지 확인 */
+			getcard = ((Vector<card>)cardManager.open.get(rank-1)).get(number-1);
+			/*if(getcard.red <= (this.red_card+this.red) && getcard.green <= (this.green_card+this.green)  
+					&& getcard.blue <= (this.blue_card+this.blue) && getcard.black <= (this.black_card+this.black)
+					&& getcard.white <= (this.white_card+this.white))*/
+			
 			/* 사용자가 선택한 카드를 사용자의 덱으로 이동 시킴 */
-			if(user_n == 1) {
-				if(rank == 1) {
-					cm.move2user(cardManager.hide_1, cardManager.open_1, cardManager.user_1, number);
-				}
-				else if(rank == 2) {
-					cm.move2user(cardManager.hide_2, cardManager.open_2, cardManager.user_1, number);
-				}
-				else if(rank == 3) {
-					cm.move2user(cardManager.hide_3, cardManager.open_3, cardManager.user_1, number);
-				}
-				getcard = cardManager.user_1.get(total_card);
-			}
-				
-			else if(user_n == 2) {
-				if(rank == 1) {
-					cm.move2user(cardManager.hide_1, cardManager.open_1, cardManager.user_2, number);
-				}
-				else if(rank == 2) {
-					cm.move2user(cardManager.hide_2, cardManager.open_2, cardManager.user_2, number);
-				}
-				else if(rank == 3) {
-					cm.move2user(cardManager.hide_3, cardManager.open_3, cardManager.user_2, number);
-				}
-				getcard = cardManager.user_2.get(total_card);
-			}
+			cm.move2user((Vector<card>)cardManager.hide.get(rank-1), (Vector<card>)
+			cardManager.open.get(rank-1), (Vector<card>)cardManager.user.get(user_n), number);
+
 			
 			/*카드 비용 지불*/
 			red = pay(getcard.red, this.red, this.red_card, 0);
@@ -128,29 +111,8 @@ public class User {
 			}
 			else {
 				/* 사용자가 가져왔던 카드를 반납 */
-				if(user_n == 1) {
-					if(rank == 1) {
-						cm.moveuser2open(cardManager.hide_1, cardManager.user_1, cardManager.open_1, total_card, number);
-					}
-					else if(rank == 2) {
-						cm.moveuser2open(cardManager.hide_2, cardManager.user_1, cardManager.open_2, total_card, number);
-					}
-					else if(rank == 3) {
-						cm.moveuser2open(cardManager.hide_3, cardManager.user_1, cardManager.open_3, total_card, number);
-					}
-				}
-					
-				else if(user_n == 2) {
-					if(rank == 1) {
-						cm.moveuser2open(cardManager.hide_1, cardManager.user_2, cardManager.open_1, total_card, number);
-					}
-					else if(rank == 2) {
-						cm.moveuser2open(cardManager.hide_2, cardManager.user_2, cardManager.open_2, total_card, number);
-					}
-					else if(rank == 3) {
-						cm.moveuser2open(cardManager.hide_3, cardManager.user_2, cardManager.open_3, total_card, number);
-					}
-				}
+				cm.moveuser2open((Vector<card>)cardManager.hide.get(rank-1), (Vector<card>)cardManager.user.get(user_n), 
+				(Vector<card>)cardManager.open.get(rank-1), total_card, number);
 				System.out.println();
 			}
 		}
@@ -235,12 +197,7 @@ public class User {
 			&& getnoble_card.blue <= this.blue_card && getnoble_card.black <= this.black_card
 			&& getnoble_card.white <= this.white_card) {
 			this.score += 3;
-			if (user_n == 1) {
-				cm.move2user_noble(cardManager.noble_hide, cardManager.noble_open, cardManager.noble_user_1, i);
-			}
-			else {
-				cm.move2user_noble(cardManager.noble_hide, cardManager.noble_open, cardManager.noble_user_2, i);
-			}
+			cm.move2user_noble(cardManager.noble_hide, cardManager.noble_open, (Vector<noble_card>)cardManager.user_noble.get(user_n), i);
 			System.out.println(getnoble_card.name + "카드를 획득했습니다.");
 			System.out.println("현재 점수는 "+ score + "점 입니다.");
 		}

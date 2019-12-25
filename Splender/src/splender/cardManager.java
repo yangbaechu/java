@@ -5,31 +5,32 @@ import java.util.Vector;
 import java.util.Random;
 
 public class cardManager{
-	int level, score, effect, need, n=0, rand, i;
+	int level, score, effect, need, n=0, rand, i, j;
 	String name;
 	card c, c1;
 	noble_card nc, nc1;
 	/* 카드의 정보들을 저장할 벡터 */
-	//숨겨진 카드가 저장될 벡터
-	static Vector<card> hide_1 = new Vector<card>();
-	static Vector<card> hide_2 = new Vector<card>();
-	static Vector<card> hide_3 = new Vector<card>();
-	//공개된 카드가 저장될 벡터
-	static Vector<card> open_1 = new Vector<card>(4);
-	static Vector<card> open_2 = new Vector<card>(4);
-	static Vector<card> open_3 = new Vector<card>(4);
-	//사용자가 획득한  카드가 저장될 벡터
-	static Vector<card> user_1 = new Vector<card>();
-	static Vector<card> user_2 = new Vector<card>();
+	static Vector<Vector<card>> hide = new Vector<Vector<card>>(3);//숨겨진 카드가 저장될 벡터
+	static Vector<Vector<card>> open = new Vector<Vector<card>>(3);//공개될 카드가 저장될 벡터
+	static Vector<Vector<card>> user = new Vector<Vector<card>>(4);//사용자의 카드가 저장될 벡터
+	static Vector<Vector<noble_card>> user_noble = new Vector<Vector<noble_card>>(4);//사용자의 귀족카드가 저장될 벡터
+
 	//귀족 카드가 저장될 벡터
 	static Vector<noble_card>noble_hide = new Vector<noble_card>();
 	static Vector<noble_card>noble_open = new Vector<noble_card>();
-	static Vector<noble_card>noble_user_1 = new Vector<noble_card>();
-	static Vector<noble_card>noble_user_2 = new Vector<noble_card>();
 	
 	Random r = new Random();
 	
+	
 	public cardManager() {
+		for(i=0; i<3; i++) {
+			hide.add(new Vector<card>());
+			open.add(new Vector<card>());
+		}
+		for(i=0; i<3; i++) {
+			user.add(new Vector<card>());
+			user_noble.add(new Vector<noble_card>());
+		}
 		String card_query = new String("1 1 3 40000\r\n" + 
 			"1 0 3 11011\r\n" + 
 			"1 0 3 13100\r\n" + 
@@ -130,7 +131,7 @@ public class cardManager{
 				"헨리_8세 40040\r\n" + 
 				"메리_여왕  44000\r\n" + 
 				"카트린_드_메디시스  33300");
-	StringTokenizer card_st = new StringTokenizer(card_query, "\r\n ");
+	StringTokenizer card_st = new StringTokenizer(card_query, "\r\n ");//카드의 정보를 읽어들임
 	StringTokenizer noble_st = new StringTokenizer(noble_query, "\r\n ");
 	
 	/* 귀족 카드를 덱에 쌓아둠 */
@@ -161,25 +162,17 @@ public class cardManager{
 		else {
 			need = token;
 			/*레벨에 맞는 카드 비공개 덱에 저장*/
-			if(level == 1) {
-				hide_1.add(new card(score, effect, need));
-			}
-			else if(level == 2) {
-				hide_2.add(new card(score, effect, need));
-			}
-			else if(level == 3) {
-				hide_3.add(new card(score, effect, need));
-			}
+			((Vector<card>)hide.get(level-1)).add(new card(score, effect, need));
 		}
 		n++;
 	}
 	/* 카드를 랜덤하게 레벨별로 4개씩 공개된 덱으로 이동 */
-	for(int i = 0; i<4; i++) {
-		move2open(hide_1, open_1);
-		move2open(hide_2, open_2);
-		move2open(hide_3, open_3);
+	for(j = 0; j<3; j++) {
+		for(i=0; i<4; i++) {
+			move2open((Vector<card>)hide.get(j), (Vector<card>)open.get(j));
+		}
 	}
-	}
+	}//생성자 종료
 	
 	/* 카드를 공개된 덱으로 옮기는 메소드 */
 	public void move2open(Vector<card> from, Vector<card> to) {
@@ -192,7 +185,7 @@ public class cardManager{
 	/* 귀족 카드를 공개된 덱으로 옮기는 메소드 */
 	public void move2open_noble(Vector<noble_card> from, Vector<noble_card> to) {
 		rand = r.nextInt(from.size());
-		nc = (noble_card) from.get(rand);//???
+		nc = (noble_card) from.get(rand);
 		from.remove(rand);
 		to.add(nc);
 	}
@@ -241,17 +234,11 @@ public class cardManager{
 			System.out.println("귀족 카드 " + (i+1) + "번  - "+ noble_open.elementAt(i));
 		}
 		System.out.println();
-		for(i = 0 ; i< 4 ; i++) {
-			System.out.println("중요도  1 " + "카드 " + (i+1) + "번  - " + open_1.elementAt(i));
+		for(j=0; j<3; j++) {
+			for(i = 0 ; i< 4 ; i++) {
+				System.out.println("중요도" +(j+1)+ " 카드  " + (i+1) + "번  - " + ((Vector<card>)open.get(j)).elementAt(i));
+			}
+			System.out.println();
 		}
-		System.out.println();
-		for(i = 0 ; i< 4 ; i++) {
-			System.out.println("중요도  2 " + "카드 " + (i+1) + "번  - " + open_2.elementAt(i));
-		}
-		System.out.println();
-		for(i = 0 ; i< 4 ; i++) {
-			System.out.println("중요도  3 " + "카드 " + (i+1) + "번  - " + open_3.elementAt(i));
-		}
-		System.out.println();
 	}
 }
