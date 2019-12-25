@@ -2,12 +2,10 @@ package splender;
 
 import java.awt.*;
 import javax.swing.*;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Vector;
 
 public class GameManager extends JFrame{
-	static boolean miss[] = {false,false,false,false,false};//사용자가 구매에 사용할 자원이 충분한지 확인한 결과를 저장
 	static boolean retry = false;
 	cardManager cm = new cardManager();
 	public GameManager() {
@@ -39,7 +37,6 @@ public class GameManager extends JFrame{
 		for(int j=0; j<i; j++) {
 			user[j] = new User(j);
 		}
-		Arrays.fill(miss, true);
 		boolean r1=true;
 		System.out.println("스플렌더에 오신 것을 환영합니다!");
 		System.out.println("스플렌더는 각각의 자원을 이용해서 카드를 구매해 점수를 얻어 승리하는 게임입니다.");
@@ -71,20 +68,12 @@ public class GameManager extends JFrame{
 	
 	/* 사용자의 턴을 진행하고 턴이 정상적으로 완료 될때까지 턴을 진행하는 메소드 */
 	public static boolean check_retry(User user, int num) {
-		boolean r1;
+		boolean r;
 		System.out.println("사용자 " + num + "의 턴입니다.");
 		do {
 			retry = false;
-			for(int i=0;i<5;i++) {//매 턴이 진행되기 전에  변수 초기화
-				miss[i] = false;
-			}
-			r1 = user.turn();
-			for(int i=0; i<5; i++) {
-				if (miss[i] == true) {//필요한 자원중 한 종류라도 사용자가 없다면 턴을 다시 진행
-					retry = true;
-				}
-			}
+			r = user.turn();
 		}while(retry);
-		return r1;
+		return r;
 	}
 }

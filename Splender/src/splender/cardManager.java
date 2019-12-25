@@ -192,28 +192,26 @@ public class cardManager{
 	
 	/*카드를 사용자에게 옮기는 메소드*/
 	public void move2user(Vector<card> source, Vector<card> open, Vector<card> user, int i)
-	{//공개된 덱 -> 사용자
+	{
 		c = open.get(i-1);
 		open.remove(i-1);
-		user.add(c);
-		//숨겨진 덱 -> 공개된 덱
+		user.add(c);//공개된 덱 -> 사용자
 		rand = r.nextInt(source.size());
 		c = (card) source.get(rand);
 		source.remove(rand);
-		open.add(i-1, c);
+		open.add(i-1, c);//숨겨진 덱 -> 공개된 덱
 	}
 	
 	/*귀족 카드를 사용자에게 옮기는 메소드*/
 	public void move2user_noble(Vector<noble_card> source, Vector<noble_card> open, Vector<noble_card> user, int i)
-	{//공개된 덱 -> 사용자
+	{
 		nc = open.get(i-1);
 		open.remove(i-1);
-		user.add(nc);
-		//숨겨진 덱 -> 공개된 덱
+		user.add(nc);//공개된 덱 -> 사용자
 		rand = r.nextInt(source.size());
 		nc = (noble_card) source.get(rand);
 		source.remove(rand);
-		open.add(i-1, nc);
+		open.add(i-1, nc);//숨겨진 덱 -> 공개된 덱
 	}
 	
 	
