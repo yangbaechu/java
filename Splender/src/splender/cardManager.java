@@ -3,19 +3,22 @@ package splender;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.Random;
+import java.io.*;
 
 public class cardManager{
 	int level, score, effect, need, n=0, rand, i, j;
+	int noble_count = 0, count = 0;
 	String name;
 	card c, c1;
 	noble_card nc, nc1;
-	/* Ä«µåÀÇ Á¤º¸µéÀ» ÀúÀåÇÒ º¤ÅÍ */
-	static Vector<Vector<card>> hide = new Vector<Vector<card>>(3);//¼û°ÜÁø Ä«µå°¡ ÀúÀåµÉ º¤ÅÍ
-	static Vector<Vector<card>> open = new Vector<Vector<card>>(3);//°ø°³µÉ Ä«µå°¡ ÀúÀåµÉ º¤ÅÍ
-	static Vector<Vector<card>> user = new Vector<Vector<card>>(4);//»ç¿ëÀÚÀÇ Ä«µå°¡ ÀúÀåµÉ º¤ÅÍ
-	static Vector<Vector<noble_card>> user_noble = new Vector<Vector<noble_card>>(4);//»ç¿ëÀÚÀÇ ±ÍÁ·Ä«µå°¡ ÀúÀåµÉ º¤ÅÍ
+	
+	/* Ä«ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
+	static Vector<Vector<card>> hide = new Vector<Vector<card>>(3);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	static Vector<Vector<card>> open = new Vector<Vector<card>>(3);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	static Vector<Vector<card>> user = new Vector<Vector<card>>(4);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	static Vector<Vector<noble_card>> user_noble = new Vector<Vector<noble_card>>(4);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä«ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	//±ÍÁ· Ä«µå°¡ ÀúÀåµÉ º¤ÅÍ
+	//ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	static Vector<noble_card>noble_hide = new Vector<noble_card>();
 	static Vector<noble_card>noble_open = new Vector<noble_card>();
 	
@@ -23,158 +26,78 @@ public class cardManager{
 	
 	
 	public cardManager() {
-		for(i=0; i<3; i++) {
+		for(i=0; i<3; i++) {//ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			hide.add(new Vector<card>());
 			open.add(new Vector<card>());
 		}
-		for(i=0; i<3; i++) {
+		for(i=0; i<4; i++) {//ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			user.add(new Vector<card>());
 			user_noble.add(new Vector<noble_card>());
 		}
-		String card_query = new String("1 1 3 40000\r\n" + 
-			"1 0 3 11011\r\n" + 
-			"1 0 3 13100\r\n" + 
-			"1 0 3 00021\r\n" +
-			"1 0 5 00220\r\n" + 
-			"1 0 5 02210\r\n" + 
-			"1 0 5 00300\r\n" + 
-			"1 0 1 01022\r\n" + 
-			"1 0 1 01111\r\n" + 
-			"1 0 1 20002\r\n" + 
-			"1 0 4 02002\r\n" + 
-			"1 0 4 10202\r\n" + 
-			"1 0 4 11101\r\n" + 
-			"1 0 4 31010\r\n" + 
-			"1 1 2 00040\r\n" + 
-			"1 0 2 20200\r\n" + 
-			"1 0 2 01301\r\n" + 
-			"1 0 2 00102\r\n" + 
-			"1 1 4 00400\r\n" + 
-			"1 0 2 30000\r\n" + 
-			"1 0 5 11110\r\n" + 
-			"1 0 5 00113\r\n" + 
-			"1 0 5 12110\r\n" + 
-			"1 1 5 04000\r\n" + 
-			"1 0 1 00003\r\n" + 
-			"1 1 1 00004\r\n" + 
-			"1 0 1 01200\r\n" + 
-			"1 0 1 01112\r\n" + 
-			"1 0 3 22001\r\n" + 
-			"1 0 3 21011\r\n" + 
-			"1 0 3 02020\r\n" + 
-			"1 0 3 00030\r\n" + 
-			"1 0 2 10111\r\n" + 
-			"1 0 2 10121\r\n" + 
-			"1 0 5 20010\r\n" + 
-			"1 0 4 03000\r\n" + 
-			"1 0 4 11201\r\n" + 
-			"1 0 4 12000\r\n" + 
-			"1 0 1 10031\r\n" + 
-			"1 0 2 20120\r\n" + 
-			"2 3 1 60000\r\n" + 
-			"2 1 1 20330\r\n" + 
-			"2 1 3 32200\r\n" + 
-			"2 2 4 00005\r\n" + 
-			"2 2 2 00214\r\n" + 
-			"2 3 3 00600\r\n" + 
-			"2 2 2 05000\r\n" + 
-			"2 3 4 00060\r\n" + 
-			"2 2 3 00600\r\n" + 
-			"2 1 4 00323\r\n" + 
-			"2 2 1 02401\r\n" + 
-			"2 1 5 30302\r\n" + 
-			"2 2 1 00053\r\n" + 
-			"2 2 2 03500\r\n" + 
-			"2 1 1 20032\r\n" + 
-			"2 3 5 00006\r\n" + 
-			"2 1 2 32003\r\n" + 
-			"2 1 4 02203\r\n" + 
-			"2 2 4 35000\r\n" + 
-			"2 2 5 50030\r\n" + 
-			"2 3 2 06000\r\n" + 
-			"2 2 5 50000\r\n" + 
-			"2 2 1 00050\r\n" + 
-			"2 2 4 24100\r\n" + 
-			"2 1 3 03230\r\n" + 
-			"2 2 3 00305\r\n" + 
-			"2 2 3 10042\r\n" + 
-			"2 1 2 00322\r\n" + 
-			"2 2 5 41020\r\n" + 
-			"2 1 5 23020\r\n" + 
-			"3 3 3 33053\r\n" + 
-			"3 4 2 03603\r\n" + 
-			"3 4 5 00070\r\n" + 
-			"3 5 5 00073\r\n" + 
-			"3 4 4 70000\r\n" + 
-			"3 4 3 00336\r\n" + 
-			"3 3 1 03533\r\n" + 
-			"3 4 1 07000\r\n" + 
-			"3 3 4 35303\r\n" + 
-			"3 5 2 03700\r\n" + 
-			"3 4 4 63030\r\n" + 
-			"3 4 5 30063\r\n" + 
-			"3 5 3 00307\r\n" + 
-			"3 5 1 37000\r\n" + 
-			"3 5 4 70030\r\n" + 
-			"3 3 2 30335\r\n" + 
-			"3 4 3 00007\r\n" + 
-			"3 4 1 36300\r\n" + 
-			"3 3 5 53330\r\n" + 
-			"3 4 2 00700\r\n");
-	String noble_query = new String("Ä®_5¼¼  30033\r\n" + 
-				"ÇÁ¶û¼ö¾Æ_1¼¼  33030\r\n" + 
-				"½¯·¹ÀÌ¸¸_1¼¼  04400\r\n" + 
-				"ÀÌ»çº§_1¼¼  00044\r\n" + 
-				"¾Ø_ºÒ¸° 03303\r\n" + 
-				"¿¤¸®ÀÚº£½º_1¼¼  00333\r\n" + 
-				"¸¶Å°¾Æº§¸®  00404\r\n" + 
-				"Çî¸®_8¼¼ 40040\r\n" + 
-				"¸Þ¸®_¿©¿Õ  44000\r\n" + 
-				"Ä«Æ®¸°_µå_¸Þµð½Ã½º  33300");
-	StringTokenizer card_st = new StringTokenizer(card_query, "\r\n ");//Ä«µåÀÇ Á¤º¸¸¦ ÀÐ¾îµéÀÓ
-	StringTokenizer noble_st = new StringTokenizer(noble_query, "\r\n ");
+		
+		/* ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ */
+		File card_file = new File("C:\\Users\\gunhee\\Desktop\\Splender\\card.txt");
+		String card_query = "";
+		String line = "";
+		try (BufferedReader br = new BufferedReader(new FileReader(card_file))) {
+		    while ((line = br.readLine()) != null) {
+		    	card_query += line;
+		    }
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		
+		/* ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ */
+		File noble_file = new File("C:\\Users\\gunhee\\Desktop\\Splender\\noble.txt");
+		String noble_query = "";
+		String line_1 = "";
+		try (BufferedReader br = new BufferedReader(new FileReader(noble_file))) {
+		    while ((line_1 = br.readLine()) != null) {
+		    	noble_query += line_1;
+		    }
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		
+		String card_info[] = card_query.split(",");
+		String noble_info[] = noble_query.split(",");;
+
+		noble_count = noble_info.length;
+		for (i = 0; i < noble_count - 1; i++) {
+			String noble_token[] = noble_info[i].split(" ");
+
+			name = noble_token[0];
+			need = Integer.parseInt(noble_token[1]);
+			noble_hide.add(new noble_card(name, need));
+		}
+		
+		for(i=0; i<3; i++) {
+			move2open_noble(noble_hide, noble_open);
+		}
+		
+		/* Ä«ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×¾Æµï¿½ */
+		count = card_info.length;
+		for (i = 0; i < count - 1; i++) {
+			String token[] = card_info[i].split(" ");
+
+			level = Integer.parseInt(token[0]);
+			score = Integer.parseInt(token[1]);
+			effect = Integer.parseInt(token[2]);
+			need = Integer.parseInt(token[3]);
+
+			/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
+			((Vector<card>) hide.get(level - 1)).add(new card(score, effect, need));
+		}
+
+		/* Ä«ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 4ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ */
+		for (j = 0; j < 3; j++) {
+			for (i = 0; i < 4; i++) {
+				move2open((Vector<card>) hide.get(j), (Vector<card>) open.get(j));
+			}
+		}
+	}	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
-	/* ±ÍÁ· Ä«µå¸¦ µ¦¿¡ ½×¾ÆµÒ */
-	int noble_count = noble_st.countTokens();
-	for(i=0; i<noble_count; i++) {
-		String token = noble_st.nextToken();
-		if(i%2 == 0) {
-			name = token;
-		}
-		else {
-			need = Integer.parseInt(token);
-			noble_hide.add(new noble_card(name, need));	
-		}
-	}
-	for(i=0; i<3; i++) {
-		move2open_noble(noble_hide, noble_open);
-	}
-	
-	/* Ä«µå¸¦ ·¹º§º°·Î Ä«µå°¡ °ø°³µÇÁö ¾Ê´Â µ¦¿¡ ½×¾ÆµÒ */
-	int count = card_st.countTokens();
-	for(i = 0; i<count; i++) {
-		int token = Integer.parseInt(card_st.nextToken());
-		if(n%4==0) {
-			level = token;
-		}
-		else if(n%4==1)	score = token;
-		else if (n%4 == 2)	effect = token;
-		else {
-			need = token;
-			/*·¹º§¿¡ ¸Â´Â Ä«µå ºñ°ø°³ µ¦¿¡ ÀúÀå*/
-			((Vector<card>)hide.get(level-1)).add(new card(score, effect, need));
-		}
-		n++;
-	}
-	/* Ä«µå¸¦ ·£´ýÇÏ°Ô ·¹º§º°·Î 4°³¾¿ °ø°³µÈ µ¦À¸·Î ÀÌµ¿ */
-	for(j = 0; j<3; j++) {
-		for(i=0; i<4; i++) {
-			move2open((Vector<card>)hide.get(j), (Vector<card>)open.get(j));
-		}
-	}
-	}//»ý¼ºÀÚ Á¾·á
-	
-	/* Ä«µå¸¦ °ø°³µÈ µ¦À¸·Î ¿Å±â´Â ¸Þ¼Òµå */
+	/* Ä«ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½ ï¿½Þ¼Òµï¿½ */
 	public void move2open(Vector<card> from, Vector<card> to) {
 		rand = r.nextInt(from.size());
 		c = (card) from.get(rand);//???
@@ -182,7 +105,7 @@ public class cardManager{
 		to.add(c);
 	}
 	
-	/* ±ÍÁ· Ä«µå¸¦ °ø°³µÈ µ¦À¸·Î ¿Å±â´Â ¸Þ¼Òµå */
+	/* ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½ ï¿½Þ¼Òµï¿½ */
 	public void move2open_noble(Vector<noble_card> from, Vector<noble_card> to) {
 		rand = r.nextInt(from.size());
 		nc = (noble_card) from.get(rand);
@@ -190,53 +113,27 @@ public class cardManager{
 		to.add(nc);
 	}
 	
-	/*Ä«µå¸¦ »ç¿ëÀÚ¿¡°Ô ¿Å±â´Â ¸Þ¼Òµå*/
+	/*Ä«ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½ ï¿½Þ¼Òµï¿½*/
 	public void move2user(Vector<card> source, Vector<card> open, Vector<card> user, int i)
 	{
 		c = open.get(i-1);
 		open.remove(i-1);
-		user.add(c);//°ø°³µÈ µ¦ -> »ç¿ëÀÚ
+		user.add(c);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½
 		rand = r.nextInt(source.size());
 		c = (card) source.get(rand);
 		source.remove(rand);
-		open.add(i-1, c);//¼û°ÜÁø µ¦ -> °ø°³µÈ µ¦
+		open.add(i-1, c);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	}
 	
-	/*±ÍÁ· Ä«µå¸¦ »ç¿ëÀÚ¿¡°Ô ¿Å±â´Â ¸Þ¼Òµå*/
+	/*ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½ ï¿½Þ¼Òµï¿½*/
 	public void move2user_noble(Vector<noble_card> source, Vector<noble_card> open, Vector<noble_card> user, int i)
 	{
 		nc = open.get(i-1);
 		open.remove(i-1);
-		user.add(nc);//°ø°³µÈ µ¦ -> »ç¿ëÀÚ
+		user.add(nc);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½
 		rand = r.nextInt(source.size());
 		nc = (noble_card) source.get(rand);
 		source.remove(rand);
-		open.add(i-1, nc);//¼û°ÜÁø µ¦ -> °ø°³µÈ µ¦
-	}
-	
-	
-	/*Ä«µå¸¦ °ø°³µÈ µ¦À¸·Î ¹Ý³³ÇÏ´Â ¸Þ¼Òµå*/
-	public void moveuser2open(Vector<card> source, Vector<card> user, Vector<card> open, int i, int num) {
-		c = user.get(i);//»ç¿ëÀÚ°¡ Àß¸ø °¡Á®¿Â Ä«µå Á¤º¸¸¦ c¿¡ ÀúÀå
-		user.remove(i);
-		c1 = open.get(num-1);//Àß¸ø °ø°³µÈ µ¦¿¡ °¡Á®¿Â Ä«µå Á¤º¸¸¦ c1¿¡ ÀúÀå
-		open.remove(num-1);
-		open.add(num-1, c);
-		source.add(c1);
-	}
-	
-	/* °ø°³ µ¦ÀÇ Ä«µå¸¦ Ãâ·ÂÇÏ´Â ¸Þ¼Òµå */
-	public void open() {
-		int i;
-		for(i = 0; i < 3; i++) {
-			System.out.println("±ÍÁ· Ä«µå " + (i+1) + "¹ø  - "+ noble_open.elementAt(i));
-		}
-		System.out.println();
-		for(j=0; j<3; j++) {
-			for(i = 0 ; i< 4 ; i++) {
-				System.out.println("Áß¿äµµ" +(j+1)+ " Ä«µå  " + (i+1) + "¹ø  - " + ((Vector<card>)open.get(j)).elementAt(i));
-			}
-			System.out.println();
-		}
+		open.add(i-1, nc);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	}
 }
