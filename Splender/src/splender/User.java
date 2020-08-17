@@ -3,11 +3,11 @@ import java.util.Scanner;
 import java.util.Vector;
 
 public class User {
-	String Color[] = {"»¡°­","ÃÊ·Ï","ÆÄ¶û","°ËÁ¤", "ÇÏ¾ç"};
-	int color[] = {0, 0, 0, 0, 0};// »¡°­, ÃÊ·Ï, ÆÄ¶û, °ËÁ¤, ÇÏ¾ç ¼øÀ¸·Î »ç¿ëÀÚ °´Ã¼ÀÇ ÀÚ¿ø ¼ıÀÚ¸¦ ÀúÀå
-	int card[] = {0, 0, 0, 0, 0};//°°Àº ¼ø¼­·Î »ç¿ëÀÚ °´Ã¼ÀÇ Ä«µå ¼ıÀÚ¸¦ ÀúÀå
+	String Color[] = {"ë¹¨ê°•","ì´ˆë¡","íŒŒë‘","ê²€ì •", "í•˜ì–‘"};
+	int color[] = {0, 0, 0, 0, 0};// ë¹¨ê°•, ì´ˆë¡, íŒŒë‘, ê²€ì •, í•˜ì–‘ ìˆœìœ¼ë¡œ ì‚¬ìš©ì ê°ì²´ì˜ ìì› ìˆ«ìë¥¼ ì €ì¥
+	int card[] = {0, 0, 0, 0, 0};//ê°™ì€ ìˆœì„œë¡œ ì‚¬ìš©ì ê°ì²´ì˜ ì¹´ë“œ ìˆ«ìë¥¼ ì €ì¥
 	int option, rank=0, number=0, user_n= 0, score = 0, total_card = 0;
-	int color_input, color_input_1, color_input_2, color_input_3; // »ç¿ëÀÚ°¡ ¼±ÅÃÇÑ ÀÚ¿ø
+	int color_input, color_input_1, color_input_2, color_input_3; // ì‚¬ìš©ìê°€ ì„ íƒí•œ ìì›
 	card getcard;
 	noble_card getnoble_card;
 	cardManager cm = new cardManager();
@@ -15,69 +15,69 @@ public class User {
 	public User(int n) { user_n = n; }
 	public boolean turn() {
 		
-		/*ÇöÀç ¿ÀÇÂµÇ¾î ÀÖ´Â Ä«µå, ÀÚ½ÅÀÇ ÀÚ¿ø°ú Ä«µå¸¦ º¸¿©ÁÜ */
+		/*í˜„ì¬ ì˜¤í”ˆë˜ì–´ ìˆëŠ” ì¹´ë“œ, ìì‹ ì˜ ìì›ê³¼ ì¹´ë“œë¥¼ ë³´ì—¬ì¤Œ */
 		cm.open();
 		show();
 		System.out.println();
-		System.out.print("Çàµ¿À» °í¸£¼¼¿ä 1)ÀÚ¿ø È¹µæ  2)Ä«µå ±¸¸Å  3)°ÔÀÓ Á¾·á>>");
+		System.out.print("í–‰ë™ì„ ê³ ë¥´ì„¸ìš” 1)ìì› íšë“  2)ì¹´ë“œ êµ¬ë§¤  3)ê²Œì„ ì¢…ë£Œ>>");
 		
 		option = scanner.nextInt();
 		
-		/* ÀÚ¿øÀ» ¾òÀ» °æ¿ì */
+		/* ìì›ì„ ì–»ì„ ê²½ìš° */
 		if(option == 1) {
-			System.out.println("°°Àº ÀÚ¿ø 2°³ È¤Àº ¼­·Î ´Ù¸¥ ÀÚ¿ø 3°³¸¦ °¡Á®°¥ ¼ö ÀÖ½À´Ï´Ù.");
-			System.out.print("Ã¹¹øÂ° ÀÚ¿øÀ» °í¸£¼¼¿ä>>");
+			System.out.println("ê°™ì€ ìì› 2ê°œ í˜¹ì€ ì„œë¡œ ë‹¤ë¥¸ ìì› 3ê°œë¥¼ ê°€ì ¸ê°ˆ ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
+			System.out.print("ì²«ë²ˆì§¸ ìì›ì„ ê³ ë¥´ì„¸ìš”>>");
 			color_input_1 = get_color();
-			System.out.print("µÎ¹øÂ° ÀÚ¿øÀ» °í¸£¼¼¿ä");
+			System.out.print("ë‘ë²ˆì§¸ ìì›ì„ ê³ ë¥´ì„¸ìš”");
 			color_input_2 = get_color();
-			if(color_input_1 == color_input_2) {//°°Àº Á¾·ùÀÇ ÀÚ¿ø 2°³ ¾òÀ» °æ¿ì
-				System.out.println("ÅÏÀÌ Á¾·áµÇ¾ú½À´Ï´Ù.");
+			if(color_input_1 == color_input_2) {//ê°™ì€ ì¢…ë¥˜ì˜ ìì› 2ê°œ ì–»ì„ ê²½ìš°
+				System.out.println("í„´ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
-			else {//°¢°¢ ´Ù¸¥ ÀÚ¿øÀ» 3°³ ¾òÀ» °æ¿ì
+			else {//ê°ê° ë‹¤ë¥¸ ìì›ì„ 3ê°œ ì–»ì„ ê²½ìš°
 				color_input_3 = get_color();
 				if(color_input_1 == color_input_3 || color_input_2 == color_input_3) {
 					do {
-						System.out.println("Á¶°Ç¿¡ ¸ÂÁö ¾Ê´Â Çàµ¿¾Ğ´Ï´Ù. °°Àº ÀÚ¿ø 2°³ È¤Àº ¼­·Î ´Ù¸¥ ÀÚ¿ø 3°³¸¦ °¡Á®°¥ ¼ö ÀÖ½À´Ï´Ù.");
+						System.out.println("ì¡°ê±´ì— ë§ì§€ ì•ŠëŠ” í–‰ë™ì••ë‹ˆë‹¤. ê°™ì€ ìì› 2ê°œ í˜¹ì€ ì„œë¡œ ë‹¤ë¥¸ ìì› 3ê°œë¥¼ ê°€ì ¸ê°ˆ ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
 						return_color(color_input_3);
-						System.out.println("¼¼¹øÂ° ÀÚ¿øÀ» °í¸£¼¼¿ä");
+						System.out.println("ì„¸ë²ˆì§¸ ìì›ì„ ê³ ë¥´ì„¸ìš”");
 						color_input_3 = get_color();
 					}while(color_input_1 == color_input_3 || color_input_2 == color_input_3);
 				}
-				System.out.println("ÅÏÀÌ Á¾·áµÇ¾ú½À´Ï´Ù.");
+				System.out.println("í„´ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 			show();
 			System.out.println();
 			return true;
 		}
 		
-		/* Ä«µå¸¦ ¾ò´Â ¼±ÅÃÀ» ÇÒ °æ¿ì */
+		/* ì¹´ë“œë¥¼ ì–»ëŠ” ì„ íƒì„ í•  ê²½ìš° */
 		else if(option == 2) {
-			System.out.print("¼±ÅÃÇÒ Ä«µåÀÇ Áß¿äµµ¸¦ ÀÔ·ÂÇÏ½Ã¿À>>");
+			System.out.print("ì„ íƒí•  ì¹´ë“œì˜ ì¤‘ìš”ë„ë¥¼ ì…ë ¥í•˜ì‹œì˜¤>>");
 			rank = scanner.nextInt();
-			System.out.print("¼±ÅÃÇÒ Ä«µåÀÇ ¹øÈ£¸¦ ÀÔ·ÂÇÏ½Ã¿À>>");
+			System.out.print("ì„ íƒí•  ì¹´ë“œì˜ ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì‹œì˜¤>>");
 			number = scanner.nextInt();
 			
-			/*»ç¿ëÀÚ°¡ ¼±ÅÃÇÑ Ä«µåÀÇ Á¤º¸¸¦ ÀĞ¾î¿È */
+			/*ì‚¬ìš©ìê°€ ì„ íƒí•œ ì¹´ë“œì˜ ì •ë³´ë¥¼ ì½ì–´ì˜´ */
 			getcard = ((Vector<card>)cardManager.open.get(rank-1)).get(number-1);
 
-			/*Ä«µå¸¦ ±¸¸ÅÇÏ±â¿¡ ÀÚ¿øÀÌ ºÎÁ·ÇÑÁö È®ÀÎ */
+			/*ì¹´ë“œë¥¼ êµ¬ë§¤í•˜ê¸°ì— ìì›ì´ ë¶€ì¡±í•œì§€ í™•ì¸ */
 			if(getcard.need[0] <= (this.card[0]+this.color[0]) && getcard.need[1] <= (this.card[1]+this.color[1])  
 					&& getcard.need[2] <= (this.card[2]+this.color[2]) && getcard.need[3] <= (this.card[3]+this.color[3])
 					&& getcard.need[4] <= (this.card[4]+this.color[4])) {
 				
-				/* »ç¿ëÀÚ°¡ ¼±ÅÃÇÑ Ä«µå¸¦ »ç¿ëÀÚÀÇ µ¦À¸·Î ÀÌµ¿ ½ÃÅ´ */
+				/* ì‚¬ìš©ìê°€ ì„ íƒí•œ ì¹´ë“œë¥¼ ì‚¬ìš©ìì˜ ë±ìœ¼ë¡œ ì´ë™ ì‹œí‚´ */
 				cm.move2user((Vector<card>)cardManager.hide.get(rank-1), (Vector<card>)
 				cardManager.open.get(rank-1), (Vector<card>)cardManager.user.get(user_n), number);
 
-				/*Ä«µå ºñ¿ë ÁöºÒ*/
+				/*ì¹´ë“œ ë¹„ìš© ì§€ë¶ˆ*/
 				for(int i=0; i<5; i++) {
 					color[i] = pay(getcard.need[i], this.color[i], this.card[i], i);
 				}
 				
-				/* ¾òÀº Ä«µåÀÇ È¿°ú »ç¿ëÀÚ¿¡°Ô Ãß°¡ */
+				/* ì–»ì€ ì¹´ë“œì˜ íš¨ê³¼ ì‚¬ìš©ìì—ê²Œ ì¶”ê°€ */
 				card[getcard.effect-1] += 1;
 				
-				/* ¾òÀº Ä«µåÀÇ Á¡¼ö »ç¿ëÀÚ¿¡°Ô Ãß°¡ */
+				/* ì–»ì€ ì¹´ë“œì˜ ì ìˆ˜ ì‚¬ìš©ìì—ê²Œ ì¶”ê°€ */
 				if(getcard.score>0) {
 					while(getcard.score!=0) {
 						score++;
@@ -86,70 +86,70 @@ public class User {
 					}
 				}
 				
-				total_card += 1;// »ç¿ëÀÚ °´Ã¼ÀÇ Ä«µå ¼ö¸¦ Áõ°¡½ÃÅ´
-				System.out.println(getcard.Effect[getcard.effect-1]+ " È¿°úÀÇ Ä«µå¸¦ ±¸¸ÅÇÏ¼Ì½À´Ï´Ù.");
+				total_card += 1;// ì‚¬ìš©ì ê°ì²´ì˜ ì¹´ë“œ ìˆ˜ë¥¼ ì¦ê°€ì‹œí‚´
+				System.out.println(getcard.Effect[getcard.effect-1]+ " íš¨ê³¼ì˜ ì¹´ë“œë¥¼ êµ¬ë§¤í•˜ì…¨ìŠµë‹ˆë‹¤.");
 				for(int i=0; i<3; i++) {
 					check_noble(i);
 				}
-				System.out.println("ÅÏÀÌ Á¾·áµÇ¾ú½À´Ï´Ù.");
+				System.out.println("í„´ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 				System.out.println();
 			}
 			else {
-				GameManager.retry = true;//ÅÏÀÌ ´Ù½Ã ÁøÇàµÇµµ·Ï º¯¼ö ¼³Á¤
-				System.out.println("ÇØ´ç Ä«µå¸¦ ±¸¸ÅÇÏ±â À§ÇÑ ÀÚ¿øÀÌ ºÎÁ·ÇÕ´Ï´Ù. ´Ù½Ã  ¼±ÅÃÇÏ¼¼¿ä");
+				GameManager.retry = true;//í„´ì´ ë‹¤ì‹œ ì§„í–‰ë˜ë„ë¡ ë³€ìˆ˜ ì„¤ì •
+				System.out.println("í•´ë‹¹ ì¹´ë“œë¥¼ êµ¬ë§¤í•˜ê¸° ìœ„í•œ ìì›ì´ ë¶€ì¡±í•©ë‹ˆë‹¤. ë‹¤ì‹œ  ì„ íƒí•˜ì„¸ìš”");
 				System.out.println();
 			}
 		}
 		
-		/* °ÔÀÓÀ» Á¾·áÇÏ´Â °æ¿ì*/
+		/* ê²Œì„ì„ ì¢…ë£Œí•˜ëŠ” ê²½ìš°*/
 		else if(option == 3) {
 			return false;
 		}
 		return true;
 	}
 	
-	/*¾òÀº Ä«µåÀÇ °¡°İÀ» ÁöºÒÇÏ´Â ¸Ş¼Òµå */
+	/*ì–»ì€ ì¹´ë“œì˜ ê°€ê²©ì„ ì§€ë¶ˆí•˜ëŠ” ë©”ì†Œë“œ */
 	public int pay(int price, int color, int color_c, int i) {
-		if(price>0) {//ÁöºÒÇÒ °¡°İÀÌ ³²¾Æ ÀÖÀ» µ¿¾È ¹İº¹
-			while(color_c > 0 && price > 0) {//ÇØ´ç ÀÚ¿øÀÇ Ä«µå°¡ ÀÖÀ» °æ¿ì
+		if(price>0) {//ì§€ë¶ˆí•  ê°€ê²©ì´ ë‚¨ì•„ ìˆì„ ë™ì•ˆ ë°˜ë³µ
+			while(color_c > 0 && price > 0) {//í•´ë‹¹ ìì›ì˜ ì¹´ë“œê°€ ìˆì„ ê²½ìš°
 				color_c--;	price--;
 			}
-			while(color > 0  && price > 0) {//ÇØ´ç ÀÚ¿øÀÇ Ä«µå°¡ ºÎÁ·ÇÏ°í ÀÚ¿øÀÌ ÀÖÀ» °æ¿ì
+			while(color > 0  && price > 0) {//í•´ë‹¹ ìì›ì˜ ì¹´ë“œê°€ ë¶€ì¡±í•˜ê³  ìì›ì´ ìˆì„ ê²½ìš°
 				color--;	price--;
 			}
-			if (price != 0) {// ÇØ´ç ÀÚ¿ø°ú Ä«µå°¡ ¸ğµÎ ¾ø´Â °æ¿ì
-				System.out.print((i+1) + "¹ø ÀÚ¿øÀÌ " + price + "¸¸Å­ ºÎÁ·ÇÕ´Ï´Ù. ");
+			if (price != 0) {// í•´ë‹¹ ìì›ê³¼ ì¹´ë“œê°€ ëª¨ë‘ ì—†ëŠ” ê²½ìš°
+				System.out.print((i+1) + "ë²ˆ ìì›ì´ " + price + "ë§Œí¼ ë¶€ì¡±í•©ë‹ˆë‹¤. ");
 			}
 		}
 		return color;
 	}
 	
-	/* ÀÚ¿ø Ä«µå¸¦ ¾ò´Â ¸Ş¼Òµå */
+	/* ìì› ì¹´ë“œë¥¼ ì–»ëŠ” ë©”ì†Œë“œ */
 	public int get_color() {
-		System.out.println("»¡°­: 1, ÃÊ·Ï: 2, ÆÄ¶û: 3, °ËÁ¤: 4, ÇÏ¾ç: 5");
+		System.out.println("ë¹¨ê°•: 1, ì´ˆë¡: 2, íŒŒë‘: 3, ê²€ì •: 4, í•˜ì–‘: 5");
 		color_input = scanner.nextInt();
 		color[color_input-1] += 1;
-		System.out.println(Color[color_input-1] + "À» È¹µæÇß½À´Ï´Ù"); 
+		System.out.println(Color[color_input-1] + "ì„ íšë“í–ˆìŠµë‹ˆë‹¤"); 
 		System.out.println();
 		return color_input;
 	}
 
-	/* ÀÚ¿ø Ä«µå¸¦ µÇµ¹·Á ÁÖ´Â ¸Ş¼Òµå */
+	/* ìì› ì¹´ë“œë¥¼ ë˜ëŒë ¤ ì£¼ëŠ” ë©”ì†Œë“œ */
 	public int return_color(int color_input) {
 		color[color_input-1] -= 1;
-		System.out.println("ÀÚ¿øÀ» ¹İÈ¯ÇÕ´Ï´Ù.");
+		System.out.println("ìì›ì„ ë°˜í™˜í•©ë‹ˆë‹¤.");
 		return color_input;
 	}
 	
-	/* »ç¿ëÀÚÀÇ ÇöÀç Á¤º¸¸¦ Ãâ·ÂÇØÁÖ´Â ¸Ş¼Òµå */
+	/* ì‚¬ìš©ìì˜ í˜„ì¬ ì •ë³´ë¥¼ ì¶œë ¥í•´ì£¼ëŠ” ë©”ì†Œë“œ */
 	public void show() {
-		System.out.println("ÇöÀç ÀÚ¿øÀÇ °³¼ö´Â »¡°­: " + color[0] + ", "+ "ÃÊ·Ï: " + color[1] + ", "+"ÆÄ¶û: " + color[2] 
-				+ ", "+"°ËÁ¤: " + color[3] + ", "+"ÇÏ¾ç: " + color[4] + " ÀÔ´Ï´Ù.");
-		System.out.println("ÇöÀç Ä«µåÀÇ °³¼ö´Â »¡°­: " + card[0] + ", "+ "ÃÊ·Ï: " + card[1] + ", "+"ÆÄ¶û: " 
-				+ card[2] + ", "+"°ËÁ¤: " + card[3] + ", "+"ÇÏ¾ç: " + card[4] + " ÀÔ´Ï´Ù.");
+		System.out.println("í˜„ì¬ ìì›ì˜ ê°œìˆ˜ëŠ” ë¹¨ê°•: " + color[0] + ", "+ "ì´ˆë¡: " + color[1] + ", "+"íŒŒë‘: " + color[2] 
+				+ ", "+"ê²€ì •: " + color[3] + ", "+"í•˜ì–‘: " + color[4] + " ì…ë‹ˆë‹¤.");
+		System.out.println("í˜„ì¬ ì¹´ë“œì˜ ê°œìˆ˜ëŠ” ë¹¨ê°•: " + card[0] + ", "+ "ì´ˆë¡: " + card[1] + ", "+"íŒŒë‘: " 
+				+ card[2] + ", "+"ê²€ì •: " + card[3] + ", "+"í•˜ì–‘: " + card[4] + " ì…ë‹ˆë‹¤.");
 	}
 	
-	/* ±ÍÁ·Ä«µå¸¦ ¾òÀ» ¼ö ÀÖ´ÂÁö È®ÀÎÇÏ´Â ¸Ş¼Òµå */
+	/* ê·€ì¡±ì¹´ë“œë¥¼ ì–»ì„ ìˆ˜ ìˆëŠ”ì§€ í™•ì¸í•˜ëŠ” ë©”ì†Œë“œ */
 	public void check_noble(int i) {
 		getnoble_card = cardManager.noble_open.get(i);
 		if(getnoble_card.red <= this.card[0] && getnoble_card.green <= this.card[1]  
@@ -158,8 +158,8 @@ public class User {
 			this.score += 3;
 			cm.move2user_noble(cardManager.noble_hide, cardManager.noble_open, 
 					(Vector<noble_card>)cardManager.user_noble.get(user_n), i);
-			System.out.println(getnoble_card.name + "Ä«µå¸¦ È¹µæÇß½À´Ï´Ù.");
-			System.out.println("ÇöÀç Á¡¼ö´Â "+ score + "Á¡ ÀÔ´Ï´Ù.");
+			System.out.println(getnoble_card.name + "ì¹´ë“œë¥¼ íšë“í–ˆìŠµë‹ˆë‹¤.");
+			System.out.println("í˜„ì¬ ì ìˆ˜ëŠ” "+ score + "ì  ì…ë‹ˆë‹¤.");
 		}
 		else {}
 	}
